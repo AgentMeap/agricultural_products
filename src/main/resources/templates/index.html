@@ -68,7 +68,7 @@
                     <span th:if="${account != null}" th:text="${account.userName}">Tài khoản</span>
                 </a>
                 <ul class="dropdown-menu text-center menu-profile" aria-labelledby="userDropdown">
-                    <li><a class="dropdown-item" href="#">Hồ sơ</a></li>
+                    <li><a class="dropdown-item" href="/profile">Hồ sơ</a></li>
                     <li><a class="dropdown-item" href="#">Đơn hàng</a></li>
                     <li th:if="${account != null}">    <!--logout-->
                         <form action="/logout" method="post">
@@ -115,49 +115,49 @@
         </div>
     </nav>
 
-  <div class="introduction">
+    <div class="introduction">
 
-      <!-- Nội dung chính -->
-      <div class="container header-content">
-          <h1>Chào mừng
-          <span th:if="${account != null}" th:text="${account.userName}"></span>
-          <span th:unless="${account != null}">bạn</span>
-              đến với Nông Sản Sạch!
-          </h1>
+        <!-- Nội dung chính -->
+        <div class="container header-content">
+            <h1>Chào mừng
+                <span th:if="${account != null}" th:text="${account.userName}"></span>
+                <span th:unless="${account != null}">bạn</span>
+                đến với Nông Sản Sạch!
+            </h1>
 
-          <h3>
-              Chúng tôi cung cấp những sản phẩm nông sản tươi, sạch và an toàn cho sức khỏe. Trực tiếp từ nông trại đến bàn ăn của bạn.
-          </h3>
-          <div class="info-header-btn">
-              <form action="/mua-sam">
-                  <button type="submit" class="btn btn-success btn-buy-now">Mua sắm ngay</button>
-              </form>
+            <h3>
+                Chúng tôi cung cấp những sản phẩm nông sản tươi, sạch và an toàn cho sức khỏe. Trực tiếp từ nông trại đến bàn ăn của bạn.
+            </h3>
+            <div class="info-header-btn">
+                <form action="/mua-sam">
+                    <button type="submit" class="btn btn-success btn-buy-now">Mua sắm ngay</button>
+                </form>
 
-              <form action="/about-us" class="">
-                  <button type="submit" class="btn btn-success btn-info">Tìm hiểu ngay</button>
-              </form>
-          </div>
+                <form action="/about-us" class="">
+                    <button type="submit" class="btn btn-success btn-info">Tìm hiểu ngay</button>
+                </form>
+            </div>
 
-      </div>
+        </div>
 
-      <!-- Auto Slide   -->
-      <div class="auto-slide">
-          <div class="swiper mySwiper">
-              <div class="swiper-wrapper">
-                  <div class="swiper-slide"><img src="https://shopnongsansach.com/wp-content/uploads/thuc-pham-sach-nong-san-sach.jpg" alt="ảnh quảng cáo 1"/></div>
-                  <div class="swiper-slide"><img src="https://shopnongsansach.com/wp-content/uploads/slide1b.jpg" alt="ảnh quảng cáo 2"/></div>
-                  <div class="swiper-slide"><img src="https://thegioinongsan.com/wp-content/uploads/2024/08/tra-xanh.jpg" alt="ảnh quảng cáo 3"/></div>
-                  <div class="swiper-slide"><img  src="https://thegioinongsan.com/wp-content/uploads/2024/08/tieu-xanh.jpg" alt="ảnh quảng cáo 4"/></div>
-                  <div class="swiper-slide"><img  src="https://thegioinongsan.com/wp-content/uploads/2024/08/cafe.jpg" alt="ảnh quảng cáo 5"/></div>
+        <!-- Auto Slide   -->
+        <div class="auto-slide">
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide"><img src="https://shopnongsansach.com/wp-content/uploads/thuc-pham-sach-nong-san-sach.jpg" alt="ảnh quảng cáo 1"/></div>
+                    <div class="swiper-slide"><img src="https://shopnongsansach.com/wp-content/uploads/slide1b.jpg" alt="ảnh quảng cáo 2"/></div>
+                    <div class="swiper-slide"><img src="https://thegioinongsan.com/wp-content/uploads/2024/08/tra-xanh.jpg" alt="ảnh quảng cáo 3"/></div>
+                    <div class="swiper-slide"><img  src="https://thegioinongsan.com/wp-content/uploads/2024/08/tieu-xanh.jpg" alt="ảnh quảng cáo 4"/></div>
+                    <div class="swiper-slide"><img  src="https://thegioinongsan.com/wp-content/uploads/2024/08/cafe.jpg" alt="ảnh quảng cáo 5"/></div>
 
-              </div>
-              <div class="swiper-button-next"><i class="fa-solid fa-chevron-right"></i></div>
-              <div class="swiper-button-prev"><i class="fa-solid fa-chevron-left"></i></div>
-              <div class="swiper-pagination"></div>
-          </div>
+                </div>
+                <div class="swiper-button-next"><i class="fa-solid fa-chevron-right"></i></div>
+                <div class="swiper-button-prev"><i class="fa-solid fa-chevron-left"></i></div>
+                <div class="swiper-pagination"></div>
+            </div>
 
-      </div>
-  </div>
+        </div>
+    </div>
 
 
     <div class="features-section mt-3 py-5 text-white">
@@ -208,7 +208,7 @@
                 <div class="menu-bar-item">
                     <div class="">
                         <div class="icon-vegetable"  > <i class="fa-solid fa-leaf"></i></div>
-                         <p>Rau lá</p>
+                        <p>Rau lá</p>
                         <p class="text-muted">10 sản phẩm</p>
                     </div>
                 </div>

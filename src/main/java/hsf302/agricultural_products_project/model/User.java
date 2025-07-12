@@ -2,6 +2,7 @@ package hsf302.agricultural_products_project.model;
 
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Nationalized;
 
 @Entity
 @Table(name = "users")
@@ -17,12 +18,14 @@ public class User {
     private String userName;
 
     @Column(name = "full_name")
+    @Nationalized
     private String userFullName;
 
     @Column(name = "password")
     private  String password;
 
     @Column(name = "address")
+    @Nationalized
     private String address;
 
     @Column(name = "status")
