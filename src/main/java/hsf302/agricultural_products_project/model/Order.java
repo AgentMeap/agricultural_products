@@ -1,87 +1,63 @@
 package hsf302.agricultural_products_project.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.List;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@Builder
 @Entity
-@Table(name="Orders")
+@Table(name = "orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "order_id")
+    private Long orderId;
 
-    private Long userId;
-    private double totalAmount;
+    @Column(name = "customer_name", columnDefinition = "NVARCHAR(100)", nullable = false)
+    private String customerName;
+
+    @Column(name = "phone_number", columnDefinition = "NVARCHAR(20)")
+    private String phoneNumber;
+
+    @Column(name = "total_price", precision = 15, scale = 2, nullable = false)
+    private BigDecimal totalPrice;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "payment_status", nullable = false)
+    private PaymentStatus paymentStatus;
+
+    @Column(name = "payment_method", columnDefinition = "NVARCHAR(50)", nullable = false)
     private String paymentMethod;
-    private String status;
-    private Date createdAt;
 
-    public Order() {
-    }
+    @Column(name = "create_at", nullable = false, updatable = false)
+    @CreationTimestamp
+    private LocalDateTime createAt;
 
-    public Order(Long userId, double totalAmount, String paymentMethod, String status, Date createdAt) {
-        this.userId = userId;
-        this.totalAmount = totalAmount;
-        this.paymentMethod = paymentMethod;
-        this.status = status;
-        this.createdAt = createdAt;
-    }
+    @Column(name = "update_at")
+    private LocalDateTime updateAt;
 
-    public Order(Long id, Long userId, double totalAmount, String paymentMethod, String status, Date createdAt) {
-        this.id = id;
-        this.userId = userId;
-        this.totalAmount = totalAmount;
-        this.paymentMethod = paymentMethod;
-        this.status = status;
-        this.createdAt = createdAt;
-    }
+    @Enumerated(EnumType.STRING)
+    @Column(name = "order_status", nullable = false)
+    private OrderStatus orderStatus;
 
-    public Long getId() {
-        return id;
-    }
+    @Column(name = "address", length = 255, nullable = false)
+    private String address;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public double getTotalAmount() {
-        return totalAmount;
-    }
-
-    public void setTotalAmount(double totalAmount) {
-        this.totalAmount = totalAmount;
-    }
-
-    public String getPaymentMethod() {
-        return paymentMethod;
-    }
-
-    public void setPaymentMethod(String paymentMethod) {
-        this.paymentMethod = paymentMethod;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderDetail> orderDetails;
+    // Additional fields and methods can be added as needed
 }

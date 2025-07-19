@@ -2,11 +2,15 @@ package hsf302.agricultural_products_project.controller;
 
 
 import hsf302.agricultural_products_project.config.VnPayConfig;
+import hsf302.agricultural_products_project.dto.CustomerOrderDto;
 import hsf302.agricultural_products_project.dto.PaymentRequest;
 import hsf302.agricultural_products_project.dto.PaymentResponse;
 import hsf302.agricultural_products_project.dto.PaymentVerification;
+import hsf302.agricultural_products_project.model.Order;
+import hsf302.agricultural_products_project.model.PaymentStatus;
 import hsf302.agricultural_products_project.model.User;
 import hsf302.agricultural_products_project.service.OrderService;
+import hsf302.agricultural_products_project.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -28,13 +32,15 @@ public class PaymentController {
 
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private UserService userService;
 
     @PostMapping("/create")
     public String createPayment(
             @RequestParam("amount") double amount,
             @RequestParam(value = "bankCode", required = false) String bankCode,
-            HttpServletRequest request, HttpSession session, Model model) {
-
+            HttpServletRequest request, HttpSession session, Model model
+    ) {
         try {
             //  Tạo Order trong DB
             User account = (User) session.getAttribute("account");
@@ -42,10 +48,15 @@ public class PaymentController {
                 System.err.println("User not logged in, redirecting to login page at payment controller line 42.");
                 return "redirect:/login";
             }
-            Long userId = account.getUserId();
-            Long orderId = orderService.createOrder(userId, amount); //
-
-            if (orderId == null || orderId < 1) {
+            //Khi qua trang thanh toán thì thông tin như: tên, địa chỉ, số điện thoại sẽ được lấy từ CustomerOrderDto
+            //Nên thêm @ModelAttribute CustomerOrderDto customerOrderDto vào hàm createPayment
+            //tạo order dùng cái CustomerOrderDto để tạo order, t refactor lại method
+            //createOrder lai roi, check lai
+            //ok xem lại gùm t
+            //  User user =  userService.findById(account.getUserId());
+            Long orderId = (Long) request.getAttribute("orderId");
+            //  Order order = orderService.createOrder(user, customerOrderDto); // tui lấy cái này nè theo cái ô nói
+            if ( orderId == null ||orderId < 1) {
                 return "redirect:/cart";
             }
 
@@ -66,6 +77,7 @@ public class PaymentController {
             return "redirect:/error?message=system_error";
         }
     }
+    //cap nhat lai phuong thuc nay de xu ly thanh toan tra ve tu VNPay, order-confirmation.html
     @GetMapping("/vnpayReturn")
     public String paymentReturn(@RequestParam Map<String, String> queryParams, Model model) {
         try {
@@ -92,14 +104,19 @@ public class PaymentController {
                 try {
                     String[] parts = vnp_TxnRef.split("_");
                     Long orderId = Long.parseLong(parts[0]);
-                    orderService.updateOrderStatus(orderId, "PAID");
-
+                    orderService.updatePaymentStatus(orderId, PaymentStatus.COMPLETED);
+                    Order order = orderService.findOrderById(orderId);
                     // Convert amount from VNPay format (x100)
                     double actualAmount = Double.parseDouble(vnp_Amount) / 100;
 
+
                     model.addAttribute("success", true);
                     model.addAttribute("message", "Payment successful");
-                    model.addAttribute("orderId", orderId);
+                    //Thay orderId bằng Order,
+                    //Trang thông báo nhận một object Order để hiển thị thông tin
+                    // Thông tin orderId, amount, transactionNo, bankCode sẽ được hiển thị trong order-confirmation.html
+                    //Nhớ check  xem trên ui có hiển thị đúng thông tin không
+                    model.addAttribute("order", order);
                     model.addAttribute("amount", String.format("%,.0f", actualAmount));
                     model.addAttribute("transactionNo", vnp_TransactionNo);
                     model.addAttribute("bankCode", vnp_BankCode);
@@ -117,13 +134,13 @@ public class PaymentController {
                 model.addAttribute("message", "Payment verification failed");
             }
 
-            return "result";
+            return "order-confirmation";
 
         } catch (Exception e) {
             log.error("Error processing payment return", e);
             model.addAttribute("success", false);
             model.addAttribute("message", "System error occurred");
-            return "result";
+            return "order-confirmation";
         }
     }
     @GetMapping("/payment-form.html")

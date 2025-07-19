@@ -6,14 +6,15 @@
     <head th:replace="~{admin/layout :: common-styles}"></head>
 </head>
 <body>
-<span>
-     <h2>Xin chào, <span th:text="${session.account.fullName}">Admin</span></h2>
-    <p>Tài khoản: <span th:text="${session.account.username}"></span></p>
-    <p>Vai trò: <span th:text="${session.account.role}"></span></p>
-    <p>Số điện thoại: <span th:text="${session.account.phoneNumber}"></span></p>
-    <p>Địa chỉ: <span th:text="${session.account.address}"></span></p>
-</span>
+<header th:replace="~{admin/layout :: admin-header(user=${user})}"></header>
+<h2>Profile Admin</h2>
+<div th:if="${account != null}" >
+    Tên tài khoản: <span th:text="${account.userName}">Tài khoản</span>
+</div>
+
 <div class="container-wrapper">
+    <nav th:replace="~{admin/layout :: sidebar(currentPage='dashboard')}"></nav>
+
     <main>
         <div class="stats-grid">
             <div class="stat-card">

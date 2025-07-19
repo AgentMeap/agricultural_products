@@ -1,6 +1,7 @@
 package hsf302.agricultural_products_project.controller;
 
 import hsf302.agricultural_products_project.dto.UserDTO;
+import hsf302.agricultural_products_project.model.Role;
 import hsf302.agricultural_products_project.model.User;
 import hsf302.agricultural_products_project.service.UserService;
 import jakarta.validation.Valid;
@@ -15,7 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class RegistrationController {
-@Autowired
+    @Autowired
     private UserService userService;
 
     @GetMapping("/register")
@@ -39,6 +40,7 @@ public class RegistrationController {
                 model.addAttribute("UserNameExist","Tên đăng nhập đã tồn tại,vui lòng chọn tên khác");
                 return "register";
             }
+            userDTO.setRole("ROLE_MEMBER");
             userService.save(userDTO);
             model.addAttribute("messageRegisterSuccess", "Đăng ký thành công!,Đăng nhập để tiếp tục");
             return "redirect:/login";
