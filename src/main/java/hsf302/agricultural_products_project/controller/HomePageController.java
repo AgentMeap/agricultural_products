@@ -2,6 +2,8 @@ package hsf302.agricultural_products_project.controller;
 
 
 import hsf302.agricultural_products_project.model.User;
+import hsf302.agricultural_products_project.service.CategoryService;
+import hsf302.agricultural_products_project.service.ProductService;
 import hsf302.agricultural_products_project.service.UserService;
 import hsf302.agricultural_products_project.utils.PasswordUtils;
 import jakarta.servlet.http.HttpSession;
@@ -19,18 +21,24 @@ public class HomePageController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/index")
-    public String index(HttpSession session, Model model) {
-        User account = (User) session.getAttribute("account");
-        System.out.println("Session Account: " + account);
-        if (account != null) {
-            model.addAttribute("account", account);
-            System.out.println("Account: " + account.getUserName());
-            System.out.println(session.getAttribute("account"));
-            return "index";
-        }
-        return "index";
-    }
+    @Autowired
+    private ProductService productService;
+
+    @Autowired
+    private CategoryService categoryService;
+
+//    @GetMapping("/index")
+//    public String index(HttpSession session, Model model) {
+//        User account = (User) session.getAttribute("account");
+//        System.out.println("Session Account: " + account);
+//        if (account != null) {
+//            model.addAttribute("account", account);
+//            System.out.println("Account: " + account.getUserName());
+//            System.out.println(session.getAttribute("account"));
+//            return "index";
+//        }
+//        return "index";
+//    }
 
     @GetMapping("/about-us")
     public String aboutUs(HttpSession session, Model model) {

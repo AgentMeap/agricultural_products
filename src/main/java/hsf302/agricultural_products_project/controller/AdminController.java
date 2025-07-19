@@ -24,8 +24,6 @@ public class AdminController {
 
         if (account != null && account.getRole().equals("ROLE_ADMIN")) {
             model.addAttribute("account", account);
-
-
             return "admin/admindashboard";
         }
          return "redirect:/403";
